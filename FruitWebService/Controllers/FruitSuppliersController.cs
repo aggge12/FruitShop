@@ -35,6 +35,31 @@ namespace FruitWebService.Controllers
             return Ok(fruitSupplier);
         }
 
+        // GET: api/GetFruitSupplierByFruit/5
+        [ResponseType(typeof(ReturnModels.FruitSupplier))]
+        public IHttpActionResult GetFruitSupplierByFruit(int id)
+        {
+            var fruitSuppliers =
+            from fruitsupp in db.FruitSupplier
+            where fruitsupp.Fruit == id
+            select fruitsupp;
+
+            if (fruitSuppliers == null)
+            {
+                return NotFound();
+            }
+
+            FruitSupplier supp = (FruitSupplier)fruitSuppliers; 
+            List<ReturnModels.FruitSupplier> listOfReturnModels = new List<ReturnModels.FruitSupplier>();
+
+            foreach (FruitSupplier suppl in fruitSuppliers)
+            {
+                listOfReturnModels.Add(new ReturnModels.FruitSupplier(suppl.id, suppl.Fruit, suppl.Supplier));
+            }
+
+            return Ok(listOfReturnModels);
+        }
+
         // PUT: api/FruitSuppliers/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutFruitSupplier(int id, FruitSupplier fruitSupplier)

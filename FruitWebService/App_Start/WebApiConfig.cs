@@ -15,9 +15,9 @@ namespace FruitWebService
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+            name: "ControllersApi",
+            routeTemplate: "{controller}/{action}/{id}",
+            defaults: new { id = RouteParameter.Optional }
             );
         }
     }

@@ -13,6 +13,11 @@ namespace FruitWebService.ReturnModels
 
         public int id { get; set; }
 
+        public FruitSupplier()
+        {
+
+        }
+
         public FruitSupplier(int id, int Fruit, int Supplier)
         {
             this.id = id;

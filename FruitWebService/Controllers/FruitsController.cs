@@ -34,7 +34,6 @@ namespace FruitWebService.Controllers
 
             ReturnModels.Fruit returnFruit = new ReturnModels.Fruit(fruit.id, fruit.Name, fruit.QuantityInSupply);
 
-
             return Ok(returnFruit);
         }
 
