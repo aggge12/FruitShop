@@ -16,6 +16,13 @@ namespace FruitWebService.Models
             ProcessedIncomingTransactions = new HashSet<ProcessedIncomingTransactions>();
         }
 
+        public Supplier(string Name)
+        {
+            FruitSupplier = new HashSet<FruitSupplier>();
+            ProcessedIncomingTransactions = new HashSet<ProcessedIncomingTransactions>();
+            this.Name = Name;
+        }
+
         public int id { get; set; }
 
         [Required]

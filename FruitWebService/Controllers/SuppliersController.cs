@@ -23,7 +23,7 @@ namespace FruitWebService.Controllers
         }
 
         // GET: api/Suppliers/5
-        [ResponseType(typeof(Supplier))]
+        [ResponseType(typeof(ReturnModels.Supplier))]
         public IHttpActionResult GetSupplier(int id)
         {
             Supplier supplier = db.Supplier.Find(id);
@@ -31,8 +31,8 @@ namespace FruitWebService.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(supplier);
+            ReturnModels.Supplier returnSupplier = new ReturnModels.Supplier(supplier.id, supplier.Name);
+            return Ok(returnSupplier);
         }
 
         // PUT: api/Suppliers/5
@@ -70,19 +70,22 @@ namespace FruitWebService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Suppliers
-        [ResponseType(typeof(Supplier))]
-        public IHttpActionResult PostSupplier(Supplier supplier)
+        // POST: Suppliers/PostSupplier
+        [ResponseType(typeof(ReturnModels.Supplier))]
+        public IHttpActionResult PostSupplier(ReturnModels.Supplier supplier)
         {
-            if (!ModelState.IsValid)
+            if (supplier.Name == null || supplier.Name == "")
             {
                 return BadRequest(ModelState);
             }
 
-            db.Supplier.Add(supplier);
+            Supplier DBSupplier = new Supplier(supplier.Name);
+
+            db.Supplier.Add(new Supplier(supplier.Name));
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = supplier.id }, supplier);
+            ReturnModels.Supplier returnsupplier = new ReturnModels.Supplier(DBSupplier.id, DBSupplier.Name);
+            return Ok(returnsupplier);
         }
 
         // DELETE: api/Suppliers/5
