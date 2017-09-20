@@ -72,19 +72,20 @@ namespace FruitWebService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Fruits
-        [ResponseType(typeof(Fruit))]
-        public IHttpActionResult PostFruit(Fruit fruit)
+        // POST: /Fruits/PostFruit
+        [ResponseType(typeof(ReturnModels.Fruit))]
+        public IHttpActionResult PostFruit(ReturnModels.Fruit fruit)
         {
-            if (!ModelState.IsValid)
+            if (fruit.Name == null || fruit.Name == "")
             {
                 return BadRequest(ModelState);
             }
-
-            db.Fruit.Add(fruit);
+            Fruit DBFruit = new Fruit(fruit.Name, fruit.QuantityInSupply);
+            db.Fruit.Add(DBFruit);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = fruit.id }, fruit);
+            ReturnModels.Fruit returnFruit = new ReturnModels.Fruit(DBFruit.id, DBFruit.Name, DBFruit.QuantityInSupply);
+            return Ok(returnFruit);
         }
 
         // DELETE: api/Fruits/5

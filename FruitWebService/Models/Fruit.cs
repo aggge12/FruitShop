@@ -17,6 +17,15 @@ namespace FruitWebService.Models
             FruitSupplier = new HashSet<FruitSupplier>();
         }
 
+        public Fruit(string Name, int QuantityInSupply)
+        {
+            ContentOfIncomingTransaction = new HashSet<ContentOfIncomingTransaction>();
+            ContentOfOutgoingTransaction = new HashSet<ContentOfOutgoingTransaction>();
+            FruitSupplier = new HashSet<FruitSupplier>();
+            this.Name = Name;
+            this.QuantityInSupply = QuantityInSupply;
+        }
+
         public int id { get; set; }
 
         [Required]
