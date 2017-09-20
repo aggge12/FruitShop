@@ -81,7 +81,7 @@ namespace FruitWebService.Controllers
 
             Supplier DBSupplier = new Supplier(supplier.Name);
 
-            db.Supplier.Add(new Supplier(supplier.Name));
+            db.Supplier.Add(DBSupplier);
             db.SaveChanges();
 
             ReturnModels.Supplier returnsupplier = new ReturnModels.Supplier(DBSupplier.id, DBSupplier.Name);
