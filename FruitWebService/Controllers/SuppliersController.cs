@@ -37,19 +37,22 @@ namespace FruitWebService.Controllers
 
         // PUT: api/Suppliers/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutSupplier(int id, Supplier supplier)
+        public IHttpActionResult PutSupplier(int id, ReturnModels.Supplier supplier)
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }*/
 
             if (id != supplier.id)
             {
                 return BadRequest();
             }
 
-            db.Entry(supplier).State = EntityState.Modified;
+            Supplier DBSupplier = db.Supplier.Find(id);
+            DBSupplier.Name = supplier.Name;
+
+            db.Entry(DBSupplier).State = EntityState.Modified;
 
             try
             {

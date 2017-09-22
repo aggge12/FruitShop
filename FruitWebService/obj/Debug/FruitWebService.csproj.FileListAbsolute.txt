@@ -153,3 +153,7 @@ C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\obj\Debug\FruitWebService.c
 C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\obj\Debug\FruitWebService.csproj.CoreCompileInputs.cache
 C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\obj\Debug\FruitWebService.dll
 C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\obj\Debug\FruitWebService.pdb
+C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\bin\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+C:\Users\Axel\Source\Repos\FruitShop\FruitWebService\bin\System.Diagnostics.DiagnosticSource.xml

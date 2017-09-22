@@ -39,19 +39,23 @@ namespace FruitWebService.Controllers
 
         // PUT: api/Fruits/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutFruit(int id, Fruit fruit)
+        public IHttpActionResult PutFruit(int id, ReturnModels.Fruit fruit)
         {
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
+            }*/
 
             if (id != fruit.id)
             {
                 return BadRequest();
             }
 
-            db.Entry(fruit).State = EntityState.Modified;
+            Fruit DBFruit = db.Fruit.Find(id);
+            DBFruit.Name = fruit.Name;
+            DBFruit.QuantityInSupply = fruit.QuantityInSupply;
+
+            db.Entry(DBFruit).State = EntityState.Modified;
 
             try
             {
