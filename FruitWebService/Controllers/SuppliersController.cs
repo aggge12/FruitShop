@@ -35,6 +35,30 @@ namespace FruitWebService.Controllers
             return Ok(returnSupplier);
         }
 
+        // GET: GetSuppliersByName/{supplier name}
+        [ResponseType(typeof(IEnumerable<ReturnModels.Supplier>))]
+        [Route("Suppliers/GetSuppliersByName/{name}")]
+        public IHttpActionResult GetSuppliersByName(string name)
+        {
+            var suppliersResult = 
+            from s in db.Supplier
+            where s.Name.Contains(name)
+            select s;
+
+            if (suppliersResult == null)
+            {
+                return NotFound();
+            }
+            List<ReturnModels.Supplier> returnSuppliers = new List<ReturnModels.Supplier>();
+
+            foreach (Supplier supplier in suppliersResult)
+            {
+                returnSuppliers.Add(new ReturnModels.Supplier(supplier.id,supplier.Name));
+            }
+
+            return Ok(returnSuppliers);
+        }
+
         // PUT: api/Suppliers/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutSupplier(int id, ReturnModels.Supplier supplier)

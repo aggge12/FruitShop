@@ -35,8 +35,25 @@ namespace FruitWebService.Controllers
             return Ok(fruitSupplier);
         }
 
-        // GET: api/GetFruitSupplierByFruit/5
-        [ResponseType(typeof(ReturnModels.FruitSupplier))]
+        // GET: GetFruitSuppliersByName
+        [ResponseType(typeof(IEnumerable<ReturnModels.FruitSupplier>))]
+        public IHttpActionResult GetFruitSuppliersBySupplierName(string name)
+        {
+            var fruitSuppliers =
+            from fruitsupp in db.FruitSupplier
+            where fruitsupp.Supplier1.Name == name
+            select fruitsupp;
+
+            if (fruitSuppliers == null)
+            {
+                return NotFound();
+            }
+            List<ReturnModels.FruitSupplier> returnFruitSuppliers = new List<ReturnModels.FruitSupplier>();
+            return Ok(returnFruitSuppliers);
+        }
+
+        // GET: api/GetFruitSupplierByFruit/{fruit ID}
+        [ResponseType(typeof(ReturnModels.Supplier))]
         public IHttpActionResult GetFruitSupplierByFruit(int id)
         {
             var fruitSuppliers =
@@ -49,15 +66,35 @@ namespace FruitWebService.Controllers
                 return NotFound();
             }
 
-            FruitSupplier supp = (FruitSupplier)fruitSuppliers; 
-            List<ReturnModels.FruitSupplier> listOfReturnModels = new List<ReturnModels.FruitSupplier>();
+            List<ReturnModels.Supplier> listOfReturnModels = new List<ReturnModels.Supplier>();
 
             foreach (FruitSupplier suppl in fruitSuppliers)
             {
-                listOfReturnModels.Add(new ReturnModels.FruitSupplier(suppl.id, suppl.Fruit, suppl.Supplier));
+                listOfReturnModels.Add(new ReturnModels.Supplier(suppl.Supplier1.id,suppl.Supplier1.Name));
             }
 
             return Ok(listOfReturnModels);
+        }
+
+        // GET: api/GetFruitSupplierByFruitAndSupplier/{fruit ID/supplier ID}
+        [ResponseType(typeof(ReturnModels.FruitSupplier))]
+        [Route("FruitSuppliers/GetFruitSupplierByFruitAndSupplier/{FruitId}/{SupplierId}")]
+        public IHttpActionResult GetFruitSupplierByFruitAndSupplier(int FruitId, int SupplierId)
+        {
+            var fruitSuppliers =
+            (from fruitsupp in db.FruitSupplier
+            where fruitsupp.Fruit == FruitId && fruitsupp.Supplier == SupplierId
+            select fruitsupp).FirstOrDefault();
+
+            if (fruitSuppliers == null)
+            {
+                return NotFound();
+            }
+            FruitSupplier f = fruitSuppliers;
+
+            ReturnModels.FruitSupplier returnSupplier = new ReturnModels.FruitSupplier(f.id,f.Fruit,f.Supplier);
+
+            return Ok(returnSupplier);
         }
 
         // PUT: api/FruitSuppliers/5
@@ -95,22 +132,30 @@ namespace FruitWebService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/FruitSuppliers
-        [ResponseType(typeof(FruitSupplier))]
-        public IHttpActionResult PostFruitSupplier(FruitSupplier fruitSupplier)
+        // POST: api/FruitSuppliers/PostFruitSupplier
+        [ResponseType(typeof(ReturnModels.FruitSupplier))]
+        public IHttpActionResult PostFruitSupplier(ReturnModels.FruitSupplier fruitSupplier)
         {
-            if (!ModelState.IsValid)
+            FruitSupplier DBFruitSupplier = new FruitSupplier(fruitSupplier.Fruit, fruitSupplier.Supplier);
+
+            var check = from f in db.FruitSupplier
+                        where f.Fruit == fruitSupplier.Fruit && f.Supplier == fruitSupplier.Supplier
+                        select f;
+            if (check.Any())
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
 
-            db.FruitSupplier.Add(fruitSupplier);
+            db.FruitSupplier.Add(DBFruitSupplier);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = fruitSupplier.id }, fruitSupplier);
+           
+
+            return Ok(new ReturnModels.FruitSupplier(DBFruitSupplier.id, DBFruitSupplier.Fruit,DBFruitSupplier.Supplier));
         }
 
-        // DELETE: api/FruitSuppliers/5
+
+        // DELETE: api/FruitSuppliers/DeleteFruitSupplier/5
         [ResponseType(typeof(FruitSupplier))]
         public IHttpActionResult DeleteFruitSupplier(int id)
         {
