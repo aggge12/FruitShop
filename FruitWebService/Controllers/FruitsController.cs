@@ -77,21 +77,46 @@ namespace FruitWebService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        /*// POST: /Fruits/PostFruitTransaction
+        // POST: /Fruits/PostFruitTransaction
         [ResponseType(typeof(ReturnModels.ProcessedOutgoingTransactions))]
-        public IHttpActionResult PostFruitTransaction(List<ContentOfIncomingTransaction> transactionContent, int )
+        public IHttpActionResult PostFruitTransaction(List<ReturnModels.ContentOfOutgoingTransaction> transactionContent)
         {
-            if (fruit.Name == null || fruit.Name == "")
+            ProcessedOutgoingTransactions transaction = new ProcessedOutgoingTransactions("pending", DateTime.Now);
+            ReturnModels.ProcessedOutgoingTransactions returnTransaction = new ReturnModels.ProcessedOutgoingTransactions();
+            try
             {
-                return BadRequest(ModelState);
-            }
-            Fruit DBFruit = new Fruit(fruit.Name, fruit.QuantityInSupply);
-            db.Fruit.Add(DBFruit);
-            db.SaveChanges();
 
-            ReturnModels.Fruit returnFruit = new ReturnModels.Fruit(DBFruit.id, DBFruit.Name, DBFruit.QuantityInSupply);
-            return Ok(returnFruit);
-        }*/
+
+                db.ProcessedOutgoingTransactions.Add(transaction);
+                db.SaveChanges();
+
+                try
+                {
+                    foreach (ReturnModels.ContentOfOutgoingTransaction transact in transactionContent)
+                    {
+                        ContentOfOutgoingTransaction transactionItem = new ContentOfOutgoingTransaction(transact.Fruit, transaction.id, transact.Amount);
+                        db.ContentOfOutgoingTransaction.Add(transactionItem);
+                        
+                    }
+                    transaction.status = "Transaction Verified";
+                    db.SaveChanges();
+
+                }
+                catch
+                {
+                    FruitModel mydb = new FruitModel();
+                    ProcessedOutgoingTransactions transactionFailed = mydb.ProcessedOutgoingTransactions.Find(transaction.id);
+                    transactionFailed.status = "Transaction Failed";
+                    mydb.SaveChanges();
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            returnTransaction = new ReturnModels.ProcessedOutgoingTransactions(transaction.id, transaction.status, (DateTime)transaction.TimeProcessed);
+            return Ok(returnTransaction);
+        }
 
 
         // POST: /Fruits/PostFruit

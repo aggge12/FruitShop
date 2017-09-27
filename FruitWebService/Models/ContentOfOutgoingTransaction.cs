@@ -9,6 +9,16 @@ namespace FruitWebService.Models
     [Table("ContentOfOutgoingTransaction")]
     public partial class ContentOfOutgoingTransaction
     {
+
+        public ContentOfOutgoingTransaction()
+        {
+
+        }
+
+        public ContentOfOutgoingTransaction(int Fruit, int ProcessedOutgoingTransaction, int Amount)
+        {
+
+        }
         public int id { get; set; }
 
         public int Fruit { get; set; }

@@ -14,6 +14,14 @@ namespace FruitWebService.Models
             ContentOfOutgoingTransaction = new HashSet<ContentOfOutgoingTransaction>();
         }
 
+        public ProcessedOutgoingTransactions(string status, DateTime TimeProcessed)
+        {
+            ContentOfOutgoingTransaction = new HashSet<ContentOfOutgoingTransaction>();
+            this.status = status;
+            this.TimeProcessed = TimeProcessed;
+        }
+
+
         public int id { get; set; }
 
         [StringLength(50)]
