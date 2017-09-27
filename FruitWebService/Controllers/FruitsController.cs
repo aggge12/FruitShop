@@ -14,7 +14,7 @@ namespace FruitWebService.Controllers
 {
     public class FruitsController : ApiController
     {
-        private FruitDBModels db = new FruitDBModels();
+        private FruitModel db = new FruitModel();
 
         // GET: api/Fruits
         public IQueryable<Fruit> GetFruit()
@@ -32,7 +32,7 @@ namespace FruitWebService.Controllers
                 return NotFound();
             }
 
-            ReturnModels.Fruit returnFruit = new ReturnModels.Fruit(fruit.id, fruit.Name, fruit.QuantityInSupply);
+            ReturnModels.Fruit returnFruit = new ReturnModels.Fruit(fruit.id, fruit.Name, fruit.QuantityInSupply, (int)fruit.Price);
 
             return Ok(returnFruit);
         }
@@ -54,6 +54,7 @@ namespace FruitWebService.Controllers
             Fruit DBFruit = db.Fruit.Find(id);
             DBFruit.Name = fruit.Name;
             DBFruit.QuantityInSupply = fruit.QuantityInSupply;
+            DBFruit.Price = fruit.price;
 
             db.Entry(DBFruit).State = EntityState.Modified;
 
@@ -76,9 +77,9 @@ namespace FruitWebService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: /Fruits/PostFruit
-        [ResponseType(typeof(ReturnModels.Fruit))]
-        public IHttpActionResult PostFruit(ReturnModels.Fruit fruit)
+        /*// POST: /Fruits/PostFruitTransaction
+        [ResponseType(typeof(ReturnModels.ProcessedOutgoingTransactions))]
+        public IHttpActionResult PostFruitTransaction(List<ContentOfIncomingTransaction> transactionContent, int )
         {
             if (fruit.Name == null || fruit.Name == "")
             {
@@ -89,6 +90,23 @@ namespace FruitWebService.Controllers
             db.SaveChanges();
 
             ReturnModels.Fruit returnFruit = new ReturnModels.Fruit(DBFruit.id, DBFruit.Name, DBFruit.QuantityInSupply);
+            return Ok(returnFruit);
+        }*/
+
+
+        // POST: /Fruits/PostFruit
+        [ResponseType(typeof(ReturnModels.Fruit))]
+        public IHttpActionResult PostFruit(ReturnModels.Fruit fruit)
+        {
+            if (fruit.Name == null || fruit.Name == "")
+            {
+                return BadRequest(ModelState);
+            }
+            Fruit DBFruit = new Fruit(fruit.Name, fruit.QuantityInSupply, fruit.price);
+            db.Fruit.Add(DBFruit);
+            db.SaveChanges();
+
+            ReturnModels.Fruit returnFruit = new ReturnModels.Fruit(DBFruit.id, DBFruit.Name, DBFruit.QuantityInSupply,(int)DBFruit.Price);
             return Ok(returnFruit);
         }
 

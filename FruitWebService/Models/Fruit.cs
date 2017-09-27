@@ -17,13 +17,14 @@ namespace FruitWebService.Models
             FruitSupplier = new HashSet<FruitSupplier>();
         }
 
-        public Fruit(string Name, int QuantityInSupply)
+        public Fruit(string Name, int qtt, int price)
         {
             ContentOfIncomingTransaction = new HashSet<ContentOfIncomingTransaction>();
             ContentOfOutgoingTransaction = new HashSet<ContentOfOutgoingTransaction>();
             FruitSupplier = new HashSet<FruitSupplier>();
             this.Name = Name;
-            this.QuantityInSupply = QuantityInSupply;
+            this.QuantityInSupply = qtt;
+            this.Price = price;
         }
 
         public int id { get; set; }
@@ -33,6 +34,8 @@ namespace FruitWebService.Models
         public string Name { get; set; }
 
         public int QuantityInSupply { get; set; }
+
+        public int? Price { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ContentOfIncomingTransaction> ContentOfIncomingTransaction { get; set; }

@@ -15,6 +15,8 @@ namespace FruitWebService.Models
 
         public int ProcessedIncomingTransactions { get; set; }
 
+        public int? Amount { get; set; }
+
         public virtual Fruit Fruit1 { get; set; }
 
         public virtual ProcessedIncomingTransactions ProcessedIncomingTransactions1 { get; set; }

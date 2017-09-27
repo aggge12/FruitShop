@@ -203,7 +203,7 @@
     <Compile Include="Models\ContentOfIncomingTransaction.cs" />
     <Compile Include="Models\ContentOfOutgoingTransaction.cs" />
     <Compile Include="Models\Fruit.cs" />
-    <Compile Include="Models\FruitDBModels.cs" />
+    <Compile Include="Models\FruitModel.cs" />
     <Compile Include="Models\FruitSupplier.cs" />
     <Compile Include="Models\ProcessedIncomingTransactions.cs" />
     <Compile Include="Models\ProcessedOutgoingTransactions.cs" />

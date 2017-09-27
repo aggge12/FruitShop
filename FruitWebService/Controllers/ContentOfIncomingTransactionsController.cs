@@ -14,7 +14,7 @@ namespace FruitWebService.Controllers
 {
     public class ContentOfIncomingTransactionsController : ApiController
     {
-        private FruitDBModels db = new FruitDBModels();
+        private FruitModel db = new FruitModel();
 
         // GET: api/ContentOfIncomingTransactions
         public IQueryable<ContentOfIncomingTransaction> GetContentOfIncomingTransaction()

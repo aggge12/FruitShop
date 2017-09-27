@@ -12,14 +12,16 @@ namespace FruitWebService.ReturnModels
    
         }
 
-        public Fruit(int id, string Name, int qtt)
+        public Fruit(int id, string Name, int qtt, int price)
         {
             this.id = id;
             this.Name = Name;
             this.QuantityInSupply = qtt;
+            this.price = price;
         }
 
         public int id { get; set; }
+        public int price { get; set; }
 
         public string Name { get; set; }
 

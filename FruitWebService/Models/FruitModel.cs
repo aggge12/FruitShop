@@ -5,10 +5,10 @@ namespace FruitWebService.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class FruitDBModels : DbContext
+    public partial class FruitModel : DbContext
     {
-        public FruitDBModels()
-            : base("name=FruitDBModels")
+        public FruitModel()
+            : base("name=FruitModel")
         {
         }
 

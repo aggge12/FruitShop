@@ -14,7 +14,7 @@ namespace FruitWebService.Controllers
 {
     public class SuppliersController : ApiController
     {
-        private FruitDBModels db = new FruitDBModels();
+        private FruitModel db = new FruitModel();
 
         // GET: api/Suppliers
         public IQueryable<Supplier> GetSupplier()

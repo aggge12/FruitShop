@@ -14,7 +14,7 @@ namespace FruitWebService.Controllers
 {
     public class ProcessedOutgoingTransactionsController : ApiController
     {
-        private FruitDBModels db = new FruitDBModels();
+        private FruitModel db = new FruitModel();
 
         // GET: api/ProcessedOutgoingTransactions
         public IQueryable<ProcessedOutgoingTransactions> GetProcessedOutgoingTransactions()

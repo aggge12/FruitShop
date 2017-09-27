@@ -23,14 +23,6 @@ namespace FruitWebService.Models
             this.Name = Name;
         }
 
-        public Supplier(int id,string Name)
-        {
-            FruitSupplier = new HashSet<FruitSupplier>();
-            ProcessedIncomingTransactions = new HashSet<ProcessedIncomingTransactions>();
-            this.Name = Name;
-            this.id = id;
-        }
-
         public int id { get; set; }
 
         [Required]

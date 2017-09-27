@@ -9,18 +9,16 @@ namespace FruitWebService.Models
     [Table("FruitSupplier")]
     public partial class FruitSupplier
     {
+        public FruitSupplier(int fruit, int supplier)
+        {
+            this.Fruit = fruit;
+            this.Supplier = supplier;
+        }
 
         public FruitSupplier()
         {
 
         }
-
-        public FruitSupplier(int Fruit, int Supplier)
-        {
-            this.Fruit = Fruit;
-            this.Supplier = Supplier;
-        }
-
         public int Fruit { get; set; }
 
         public int Supplier { get; set; }
