@@ -14,11 +14,12 @@ namespace FruitWebService.Models
             ContentOfIncomingTransaction = new HashSet<ContentOfIncomingTransaction>();
         }
 
-        public ProcessedIncomingTransactions(string status, DateTime TimeProcessed)
+        public ProcessedIncomingTransactions(string status, DateTime TimeProcessed, int Supplier)
         {
             ContentOfIncomingTransaction = new HashSet<ContentOfIncomingTransaction>();
             this.Status = status;
             this.TimeProcessed = TimeProcessed;
+            this.Supplier = Supplier;
         }
 
         public int id { get; set; }

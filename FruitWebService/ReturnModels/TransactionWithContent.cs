@@ -7,10 +7,10 @@ namespace FruitWebService.ReturnModels
 {
     public class TransactionWithContent
     {
-        ProcessedIncomingTransactions incomingTransaction;
-        List<ContentOfIncomingTransaction> contentOfTransaction;
+        public ProcessedIncomingTransactions incomingTransaction { get; set; }
+        public List<ContentOfIncomingTransaction> contentOfTransaction{ get; set; }
 
-        public TransactionWithContent(ProcessedIncomingTransactions incomingTransaction, List<ContentOfIncomingTransaction> contentOfTransaction)
+    public TransactionWithContent(ProcessedIncomingTransactions incomingTransaction, List<ContentOfIncomingTransaction> contentOfTransaction)
         {
             this.incomingTransaction = incomingTransaction;
             this.contentOfTransaction = contentOfTransaction;

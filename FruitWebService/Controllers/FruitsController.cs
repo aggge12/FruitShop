@@ -80,9 +80,10 @@ namespace FruitWebService.Controllers
 
         // POST: /Fruits/PostFruitTransaction
         [ResponseType(typeof(ReturnModels.ProcessedIncomingTransactions))]
-        public IHttpActionResult PostFruitImport(List<ReturnModels.ContentOfIncomingTransaction> transactionContent)
+        public IHttpActionResult PostFruitImport(ReturnModels.TransactionWithContent transactionWithContent)
         {
-            ProcessedIncomingTransactions transaction = new ProcessedIncomingTransactions("pending", DateTime.Now);
+            List<ReturnModels.ContentOfIncomingTransaction> transactionContent = transactionWithContent.contentOfTransaction;
+            ProcessedIncomingTransactions transaction = new ProcessedIncomingTransactions("pending", DateTime.Now, transactionWithContent.incomingTransaction.Supplier);
             ReturnModels.ProcessedIncomingTransactions returnTransaction = new ReturnModels.ProcessedIncomingTransactions();
             try
             {
@@ -113,7 +114,7 @@ namespace FruitWebService.Controllers
                     mydb.SaveChanges();
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 return BadRequest();
             }
