@@ -14,10 +14,10 @@ namespace FruitWebService.Models
 
         }
 
-        public ContentOfIncomingTransaction(int Fruit, int ProcessedOutgoingTransaction, int Amount)
+        public ContentOfIncomingTransaction(int Fruit, int ProcessedIncomingTransactions, int Amount)
         {
             this.Fruit = Fruit;
-            this.ProcessedOutgoingTransaction = ProcessedOutgoingTransaction;
+            this.ProcessedIncomingTransactions = ProcessedIncomingTransactions;
             this.Amount = Amount;
         }
         public int id { get; set; }
