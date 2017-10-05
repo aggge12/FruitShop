@@ -11,13 +11,15 @@ namespace FruitWebService.ReturnModels
 
         public int Fruit { get; set; }
 
+        public int Amount { get; set; }
         public int ProcessedIncomingTransactions { get; set; }
 
-        public ContentOfIncomingTransaction(int id, int Fruit, int ProcessedIncomingTransactions)
+        public ContentOfIncomingTransaction(int id, int Fruit, int ProcessedIncomingTransactions, int Amount)
         {
             this.id = id;
             this.Fruit = Fruit;
             this.ProcessedIncomingTransactions = ProcessedIncomingTransactions;
+            this.Amount = Amount;
         }
 
     }

@@ -17,7 +17,9 @@ namespace FruitWebService.Models
 
         public ContentOfOutgoingTransaction(int Fruit, int ProcessedOutgoingTransaction, int Amount)
         {
-
+            this.Fruit = Fruit;
+            this.ProcessedOutgoingTransaction = ProcessedOutgoingTransaction;
+            this.Amount = Amount;
         }
         public int id { get; set; }
 

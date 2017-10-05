@@ -77,6 +77,51 @@ namespace FruitWebService.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+        // POST: /Fruits/PostFruitTransaction
+        [ResponseType(typeof(ReturnModels.ProcessedIncomingTransactions))]
+        public IHttpActionResult PostFruitImport(List<ReturnModels.ContentOfIncomingTransaction> transactionContent)
+        {
+            ProcessedIncomingTransactions transaction = new ProcessedIncomingTransactions("pending", DateTime.Now);
+            ReturnModels.ProcessedIncomingTransactions returnTransaction = new ReturnModels.ProcessedIncomingTransactions();
+            try
+            {
+
+
+                db.ProcessedIncomingTransactions.Add(transaction);
+                db.SaveChanges();
+
+                try
+                {
+                    foreach (ReturnModels.ContentOfIncomingTransaction transact in transactionContent)
+                    {
+                        Fruit fruit = db.Fruit.Find(transact.Fruit); 
+                        fruit.QuantityInSupply += transact.Amount; // add fruit amount to fruit supply
+                        ContentOfIncomingTransaction transactionItem = new ContentOfIncomingTransaction(transact.Fruit, transaction.id, transact.Amount);
+                        db.ContentOfIncomingTransaction.Add(transactionItem);
+
+                    }
+                    transaction.Status = "Transaction Verified";
+                    db.SaveChanges();
+
+                }
+                catch
+                {
+                    FruitModel mydb = new FruitModel();
+                    ProcessedIncomingTransactions transactionFailed = mydb.ProcessedIncomingTransactions.Find(transaction.id);
+                    transactionFailed.Status = "Transaction Failed";
+                    mydb.SaveChanges();
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            returnTransaction = new ReturnModels.ProcessedIncomingTransactions(transaction.id, transaction.Status, (DateTime)transaction.TimeProcessed, transaction.Supplier);
+            return Ok(returnTransaction);
+        }
+
+
         // POST: /Fruits/PostFruitTransaction
         [ResponseType(typeof(ReturnModels.ProcessedOutgoingTransactions))]
         public IHttpActionResult PostFruitTransaction(List<ReturnModels.ContentOfOutgoingTransaction> transactionContent)
@@ -94,6 +139,7 @@ namespace FruitWebService.Controllers
                 {
                     foreach (ReturnModels.ContentOfOutgoingTransaction transact in transactionContent)
                     {
+                        // subtract amount from fruit, check for success and then continue if successfully subtracted
                         ContentOfOutgoingTransaction transactionItem = new ContentOfOutgoingTransaction(transact.Fruit, transaction.id, transact.Amount);
                         db.ContentOfOutgoingTransaction.Add(transactionItem);
                         

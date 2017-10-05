@@ -216,6 +216,7 @@
     <Compile Include="ReturnModels\ProcessedIncomingTransactions.cs" />
     <Compile Include="ReturnModels\ProcessedOutgoingTransactions.cs" />
     <Compile Include="ReturnModels\Supplier.cs" />
+    <Compile Include="ReturnModels\TransactionWithContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
