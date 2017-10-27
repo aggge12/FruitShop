@@ -17,9 +17,16 @@ namespace FruitWebService.Controllers
         private FruitModel db = new FruitModel();
 
         // GET: api/Fruits
-        public IQueryable<Fruit> GetFruit()
+        [ResponseType(typeof(List<ReturnModels.Fruit>))]
+        public IHttpActionResult GetFruit()
         {
-            return db.Fruit;
+            var fruit = db.Fruit;
+            List<ReturnModels.Fruit> returnFruits = new List<ReturnModels.Fruit>();
+            foreach(Fruit f in fruit)
+            {
+                returnFruits.Add(new ReturnModels.Fruit(f.id,f.Name,f.QuantityInSupply,(int)f.Price));
+            }
+            return Ok(returnFruits);
         }
 
         // GET: api/Fruits/5
@@ -141,8 +148,19 @@ namespace FruitWebService.Controllers
                     foreach (ReturnModels.ContentOfOutgoingTransaction transact in transactionContent)
                     {
                         // subtract amount from fruit, check for success and then continue if successfully subtracted
-                        ContentOfOutgoingTransaction transactionItem = new ContentOfOutgoingTransaction(transact.Fruit, transaction.id, transact.Amount);
-                        db.ContentOfOutgoingTransaction.Add(transactionItem);
+                        try
+                        {
+                            var fruit = db.Fruit.Find(transact.Fruit);
+                            fruit.QuantityInSupply = fruit.QuantityInSupply - transact.Amount;
+                            ContentOfOutgoingTransaction transactionItem = new ContentOfOutgoingTransaction(transact.Fruit, transaction.id, transact.Amount);
+                            db.ContentOfOutgoingTransaction.Add(transactionItem);
+                            db.SaveChanges();
+                        }
+                        catch
+                        {
+                            throw new Exception("transaction item failed");
+                        }
+
                         
                     }
                     transaction.status = "Transaction Verified";
@@ -155,6 +173,7 @@ namespace FruitWebService.Controllers
                     ProcessedOutgoingTransactions transactionFailed = mydb.ProcessedOutgoingTransactions.Find(transaction.id);
                     transactionFailed.status = "Transaction Failed";
                     mydb.SaveChanges();
+                    throw new Exception();
                 }
             }
             catch
