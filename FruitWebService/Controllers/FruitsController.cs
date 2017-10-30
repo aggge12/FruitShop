@@ -96,12 +96,12 @@ namespace FruitWebService.Controllers
             {
 
 
-                db.ProcessedIncomingTransactions.Add(transaction);
+                db.ProcessedIncomingTransactions.Add(transaction); // transaction should exist even if it fails
                 db.SaveChanges();
 
                 try
                 {
-                    foreach (ReturnModels.ContentOfIncomingTransaction transact in transactionContent)
+                    foreach (ReturnModels.ContentOfIncomingTransaction transact in transactionContent) // for each incoming transaction item
                     {
                         Fruit fruit = db.Fruit.Find(transact.Fruit); 
                         fruit.QuantityInSupply += transact.Amount; // add fruit amount to fruit supply
@@ -140,12 +140,12 @@ namespace FruitWebService.Controllers
             {
 
 
-                db.ProcessedOutgoingTransactions.Add(transaction);
+                db.ProcessedOutgoingTransactions.Add(transaction); // adding transaction and then saving, i want the transaction to exist as an successful or failed transaction
                 db.SaveChanges();
 
                 try
                 {
-                    foreach (ReturnModels.ContentOfOutgoingTransaction transact in transactionContent)
+                    foreach (ReturnModels.ContentOfOutgoingTransaction transact in transactionContent) // for each content item in transaction
                     {
                         // subtract amount from fruit, check for success and then continue if successfully subtracted
                         try
