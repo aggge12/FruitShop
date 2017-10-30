@@ -124,7 +124,17 @@ namespace FruitWebService.Controllers
             {
                 return NotFound();
             }
+            var fruitSupplier = from f in db.FruitSupplier
+                                where f.Supplier == id
+                                select f;
 
+            if (fruitSupplier != null)
+            {
+                foreach (FruitSupplier fs in fruitSupplier) // cascading delete
+                {
+                    db.FruitSupplier.Remove(fs);
+                }
+            }
             db.Supplier.Remove(supplier);
             db.SaveChanges();
 

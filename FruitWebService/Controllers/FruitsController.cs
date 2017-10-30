@@ -85,7 +85,7 @@ namespace FruitWebService.Controllers
         }
 
 
-        // POST: /Fruits/PostFruitTransaction
+        // POST: /Fruits/PostFruitImport
         [ResponseType(typeof(ReturnModels.ProcessedIncomingTransactions))]
         public IHttpActionResult PostFruitImport(ReturnModels.TransactionWithContent transactionWithContent)
         {
@@ -202,13 +202,24 @@ namespace FruitWebService.Controllers
         }
 
         // DELETE: api/Fruits/5
-        [ResponseType(typeof(Fruit))]
+        [ResponseType(typeof(ReturnModels.Fruit))]
         public IHttpActionResult DeleteFruit(int id)
         {
             Fruit fruit = db.Fruit.Find(id);
             if (fruit == null)
             {
                 return NotFound();
+            }
+            var fruitSupplier = from f in db.FruitSupplier 
+            where f.Fruit == id
+            select f;
+
+            if (fruitSupplier != null)
+            {
+                foreach (FruitSupplier fs in fruitSupplier) // cascading delete
+                {
+                    db.FruitSupplier.Remove(fs);
+                }
             }
 
             db.Fruit.Remove(fruit);
